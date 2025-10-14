@@ -1,14 +1,15 @@
 package npc
 
 import (
+	"time"
+
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/go-gl/mathgl/mgl64"
-	"time"
 )
 
 // HandlerFunc may be passed to Create to handle a *player.Player attacking an NPC.
-type HandlerFunc func(p *player.Player)
+type HandlerFunc func(victim, attacker *player.Player)
 
 // Create creates a new NPC with the Settings passed. A world.Loader is spawned in the background which follows the
 // NPC to prevent it from despawning. Create panics if the *world.Tx passed is nil.
@@ -21,7 +22,7 @@ func Create(s Settings, tx *world.Tx, f HandlerFunc) *player.Player {
 		panic("tx passed to npc.create must not be nil")
 	}
 	if f == nil {
-		f = func(*player.Player) {}
+		f = func(*player.Player, *player.Player) {}
 	}
 
 	opts := world.EntitySpawnOpts{

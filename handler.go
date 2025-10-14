@@ -1,12 +1,13 @@
 package npc
 
 import (
+	"time"
+
 	"github.com/df-mc/dragonfly/server/block/cube"
 	"github.com/df-mc/dragonfly/server/entity"
 	"github.com/df-mc/dragonfly/server/player"
 	"github.com/df-mc/dragonfly/server/world"
 	"github.com/go-gl/mathgl/mgl64"
-	"time"
 )
 
 // handler implements the handler for an NPC entity. It manages the execution of the HandlerFunc assigned to the NPC
@@ -24,7 +25,7 @@ type handler struct {
 func (h *handler) HandleHurt(ctx *player.Context, _ *float64, _ bool, _ *time.Duration, src world.DamageSource) {
 	if src, ok := src.(entity.AttackDamageSource); ok {
 		if attacker, ok := src.Attacker.(*player.Player); ok {
-			h.f(attacker)
+			h.f(ctx.Val(), attacker)
 		}
 	}
 	if !h.vulnerable {

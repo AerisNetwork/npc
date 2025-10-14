@@ -5,11 +5,11 @@ import (
 	_ "embed"
 	"encoding/json"
 	"fmt"
-	"github.com/df-mc/dragonfly/server/player/skin"
 	"image"
 	"io"
-	"io/ioutil"
 	"os"
+
+	"github.com/df-mc/dragonfly/server/player/skin"
 )
 
 // Always import image/png so that image.Decode can always decode PNGs. By far most of the skins are stored as PNGs so
@@ -108,16 +108,16 @@ func ParseTexture(path string) (Texture, error) {
 // and the bounds of the skin texture as specified in the model. If the file could not be parsed or if the model data
 // was invalid, an error is returned.
 func ReadModel(r io.Reader) (Model, error) {
-	model, err := ioutil.ReadAll(r)
+	model, err := io.ReadAll(r)
 	if err != nil {
 		return Model{}, fmt.Errorf("failed reading model: %w", err)
 	}
-	var m map[string]interface{}
-	if err := json.Unmarshal(model, &m); err != nil {
+	var m map[string]any
+	if err = json.Unmarshal(model, &m); err != nil {
 		return Model{}, fmt.Errorf("failed decoding model: %w", err)
 	}
 
-	data := m["minecraft:geometry"].([]interface{})[0].(map[string]interface{})["description"].(map[string]interface{})
+	data := m["minecraft:geometry"].([]any)[0].(map[string]any)["description"].(map[string]any)
 
 	// The model contains the texture width and height too. We return these as an image.Rectangle and later verify if
 	// this matches the dimensions of the actual texture.
