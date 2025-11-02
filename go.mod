@@ -1,6 +1,6 @@
-module github.com/df-mc/npc
+module github.com/aerisnetwork/npc
 
-go 1.24
+go 1.25
 
 require (
 	github.com/df-mc/dragonfly v0.10.9-0.20251005013339-1872684e6f38
