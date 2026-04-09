@@ -48,7 +48,9 @@ func Create(s Settings, tx *world.Tx, f HandlerFunc) *player.Player {
 
 	h.syncPosition(tx, s.Position)
 
-	go syncWorld(ent, l)
+	if s.SyncWorld {
+		go syncWorld(ent, l)
+	}
 	return npc
 }
 

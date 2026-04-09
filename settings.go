@@ -23,4 +23,5 @@ type Settings struct {
 	Chestplate,
 	Leggings,
 	Boots item.Stack
+	SyncWorld bool
 }
